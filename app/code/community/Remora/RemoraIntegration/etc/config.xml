@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+  <config>
+    <modules>
+      <Remora_RemoraIntegration>
+        <version>1.0.0</version>
+      </Remora_RemoraIntegration>
+    </modules>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <remoraintegration_options>
+                                            <title>Remora Module Section</title>
+                                        </remoraintegration_options>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <global>
+      <models>
+          <remora_integration>
+            <class>Remora_RemoraIntegration_Model</class>
+          </remora_integration>
+      </models>
+      <helpers>
+        <remora_integration>
+          <class>Remora_RemoraIntegration_Helper</class>
+        </remora_integration>
+      </helpers>
+      <blocks>
+          <remora_integration>
+            <class>Remora_RemoraIntegration_Block</class>
+          </remora_integration>
+      </blocks>
+    </global>
+
+    <frontend>
+
+      <!-- Layout -->
+      <layout>
+        <updates>
+          <remora_remora_integration>
+            <file>remora/remoraintegration.xml</file>
+          </remora_remora_integration>
+        </updates>
+      </layout>
+      <events>
+        <controller_action_layout_load_before>
+          <observers>
+            <Remora_RemoraIntegration_Model_Page_Observer>
+              <type>singleton</type>
+              <class>remora_integration/page_observer</class>
+              <method>setUniversalVariable</method>
+            </Remora_RemoraIntegration_Model_Page_Observer>
+          </observers>
+        </controller_action_layout_load_before>
+      </events>
+    </frontend>
+    
+</config>

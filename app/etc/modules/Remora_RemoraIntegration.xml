@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Remora_RemoraIntegration>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Remora_RemoraIntegration>
+    </modules>
+</config>

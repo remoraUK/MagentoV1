@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+      <reference name="head">
+        <block type="remora_integration/remora" name="remora_integration" as="remora_integration" template="remora/remora.phtml"/>
+      </reference>
+    </default>
+</layout>

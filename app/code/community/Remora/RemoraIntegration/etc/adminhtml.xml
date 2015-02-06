@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <remora_remoraintegration translate="title" module="remora_integration">
+                                        <sort_order>0</sort_order>
+                                        <title>Manage Remora Script</title>
+                                    </remora_remoraintegration>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

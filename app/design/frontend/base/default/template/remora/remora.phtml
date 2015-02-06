@@ -1,0 +1,61 @@
+<?php 
+	/* @var $this Remora_RemoraIntegraion_Block_Remora */
+	$remora_companykey = Mage::getStoreConfig('remora_remoraintegration/Remora_RemoraIntegration_Settings/companykey');
+	$remora_integration_enabled = Mage::getStoreConfig('remora_remoraintegration/Remora_RemoraIntegration_Settings/integrationenabled');
+	$remoraopendata = Mage::getStoreConfig('remora_remoraintegration/Remora_RemoraIntegration_Settings/remoraopendata');
+
+	$mage = Mage::getSingleton('remora_integration/page_observer');
+
+	// Always get the transaction data here
+	$transaction     = $mage->getTransaction();
+?>
+
+<?php if ($remora_integration_enabled==='1' && $remora_companykey != ''): ?>
+<script type="text/javascript">
+
+(function(b,g,h,e,a,c,d,f){e="script";a="remora";c="queue";b[a]=b[a]||function(
+){b[a][c]=b[a][c]||[];b[a][c].push(arguments)};d=g.createElement(e);d.async=!0;
+d.src=h;f=g.getElementsByTagName(e)[0];f.parentNode.insertBefore(d,f)})(window,
+document,"//remora.so/r.js?key=<?php echo $remora_companykey; ?>");
+
+remora('setKey', '<?php echo $remora_companykey; ?>');
+
+<?php if($remoraopendata==='1'): ?>
+<?php
+  // extract variable only when universal variable is enabled 
+  $version         = $mage->getVersion();
+  $page            = $mage->getPage();
+  $user            = $mage->getUser();
+  $product         = $mage->getProduct();
+  $basket          = $mage->getBasket();
+  $listing         = $mage->getListing();
+  $magento_version = $mage->getMageVersion();
+  $events          = $mage->getEvents();
+?>
+
+  window.universal_variable = window.universal_variable || {};
+  window.universal_variable.version         = <?php echo json_encode($version); ?>;
+  window.universal_variable.magento_version = <?php echo json_encode($magento_version) ?>;
+  window.universal_variable.page            = <?php echo json_encode($page); ?>;
+  window.universal_variable.user            = <?php echo json_encode($user); ?>;
+  <?php if ($product) : ?>
+  window.universal_variable.product         = <?php echo json_encode($product) ?>;
+  <?php endif; ?>
+  <?php if ($basket) : ?>
+  window.universal_variable.basket          = <?php echo json_encode($basket) ?>;
+  <?php endif; ?>
+  <?php if ($listing): ?>
+  window.universal_variable.listing         = <?php echo json_encode($listing) ?>;
+  <?php endif; ?>
+  <?php if ($transaction): ?>
+  window.universal_variable.transaction     = <?php echo json_encode($transaction) ?>;
+  <?php endif; ?> 
+  window.universal_variable.events          = <?php echo json_encode($events); ?>;
+
+  remora('Harvester.setPageData', window.universal_variable);
+<?php endif;?>
+<?php if ($transaction): ?>
+ remora('Harvester.setConversion', '<?php echo $transaction['currency'] ?>', '<?php echo $transaction['total'] ?>');
+<?php endif; ?>
+</script>
+<?php endif; ?>
